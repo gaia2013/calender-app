@@ -7,7 +7,13 @@ import * as styles from "./style.css"
 
 const days = ["日", "月", "火", "水", "木", "金", "土"]
 
-const CalendarBoard = ({ calendar, month, openAddScheduleDialog }) => {
+const CalendarBoard = ({
+  calendar,
+  month,
+  openAddScheduleDialog,
+  openCurrentScheduleDialog
+}) => {
+  console.log(calendar)
   return (
     <div className={styles.container}>
       <ImageList className={styles.grid} cols={7} rowHeight="auto">
@@ -24,12 +30,17 @@ const CalendarBoard = ({ calendar, month, openAddScheduleDialog }) => {
             </Typography>
           </ImageListItem>
         ))}
-        {calendar.map(c => (
+        {calendar.map(({ date, schedules }) => (
           <ImageListItem
-            key={c.toISOString()}
-            onClick={() => openAddScheduleDialog(c)}
+            key={date.toISOString()}
+            onClick={() => openAddScheduleDialog(date)}
           >
-            <CalendarElement day={c} month={month} />
+            <CalendarElement
+              day={date}
+              month={month}
+              schedules={schedules}
+              onClickSchedule={openCurrentScheduleDialog}
+            />
           </ImageListItem>
         ))}
       </ImageList>
